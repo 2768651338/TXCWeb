@@ -1,34 +1,7 @@
 <?php
-/**
- * TXCWeb - 田小橙个人主页
- *
- * Copyright (c) 2024-2026 田小橙 (TXC)
- * Licensed under the MIT License
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- *
- * Project URL: https://github.com/yourusername/TXCWeb
- * Author Website: https://txc666.cn
- */
-
+    
     $qq_link = "https://qm.qq.com/q/mOLOGhAQjC"; //qq链接
-
+    
 ?>
 
 <!DOCTYPE html>
@@ -141,6 +114,15 @@
                                 <a class="btn btn-green">独立软件开发者</a>
                                 <a class="btn btn-yellow">独立网站开发者</a>
                                 <a class="btn btn-blue">全栈工程师</a>
+                            </div>
+                            <div class="bc-xs12">
+                                <a class="btn">语言：</a>
+                                <p></p>
+                                <a class="btn btn-green">PHP</a>
+                                <a class="btn btn-yellow">HTML</a>
+                                <a class="btn btn-blue">CSS</a>
+                                <a class="btn btn-green">JAVA</a>
+                                <a class="btn btn-yellow">C</a>
                             </div>
                         </div>
                     </div>
