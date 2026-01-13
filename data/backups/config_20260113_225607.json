@@ -1,0 +1,31 @@
+{
+    "version": "1.0.0",
+    "lastModified": "2026-01-13T22:56:07+08:00",
+    "site": {
+        "title": "田小橙个人主页",
+        "description": "田小橙个人主页，简约而不简单。",
+        "keywords": "田小橙主页1",
+        "themeColor": "#ed0c0c",
+        "favicon": "https:\/\/q1.qlogo.cn\/g?b=qq&nk=2768651338&s=640",
+        "copyright": "2024-2026 田小橙主页",
+        "startTime": "02\/15\/2024 00:00:00"
+    },
+    "contact": {
+        "qq": "2768651338",
+        "qqLink": "https:\/\/qm.qq.com\/q\/mOLOGhAQjC",
+        "wechat": {
+            "name": "微信",
+            "action": "点旁边QQ我就告诉你😏"
+        },
+        "group": {
+            "name": "群聊",
+            "action": "点旁边QQ我就告诉你😏"
+        }
+    },
+    "icp": {
+        "police": "桂公网安备45272402000026号",
+        "policeLink": "http:\/\/www.beian.gov.cn\/portal\/registerSystemInfo?recordcode=45272402000026",
+        "icp": "桂ICP备2024037782号",
+        "icpLink": "https:\/\/beian.miit.gov.cn\/#\/Integrated\/index"
+    }
+}

@@ -1,0 +1,23 @@
+{
+    "version": "1.0.0",
+    "lastModified": "2026-01-13T23:03:13+08:00",
+    "friends": [
+        {
+            "id": "friend-1",
+            "name": "智创比特团队",
+            "url": "https:\/\/bit.txc666.cn\/",
+            "description": "专业技术开发团队",
+            "avatar": "https:\/\/bit.txc666.cn\/upload\/logo.png",
+            "status": "active"
+        },
+        {
+            "id": "friend-2",
+            "name": "友链入驻",
+            "url": "#",
+            "description": "期待您的加入",
+            "avatar": "",
+            "status": "recruiting",
+            "action": "该位置正在招募友链入驻~"
+        }
+    ]
+}

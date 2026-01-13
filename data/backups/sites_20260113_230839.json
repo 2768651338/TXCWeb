@@ -1,0 +1,62 @@
+{
+    "version": "1.0.0",
+    "lastModified": "2026-01-13T23:08:39+08:00",
+    "sites": [
+        {
+            "id": "site-1",
+            "name": "田小橙博客",
+            "url": "https:\/\/blog.txc666.cn\/",
+            "description": "分享技术文章与生活感悟",
+            "icon": "icon-blog",
+            "status": "running"
+        },
+        {
+            "id": "site-2",
+            "name": "星河留言板",
+            "url": "https:\/\/starboard.txc666.cn\/",
+            "description": "在线留言互动平台",
+            "icon": "icon-message",
+            "status": "running"
+        },
+        {
+            "id": "site-3",
+            "name": "太荒后台",
+            "url": "https:\/\/th.txc666.cn\/",
+            "description": "专业的后台管理系统",
+            "icon": "icon-dashboard",
+            "status": "running"
+        },
+        {
+            "id": "site-4",
+            "name": "田小橙云商店",
+            "url": "https:\/\/shop.txc666.cn\/",
+            "description": "优质数字产品交易平台",
+            "icon": "icon-shop",
+            "status": "running"
+        },
+        {
+            "id": "site-5",
+            "name": "筑梦云支付",
+            "url": "https:\/\/pay.txc666.cn\/",
+            "description": "安全便捷的支付解决方案",
+            "icon": "icon-pay",
+            "status": "stopped"
+        },
+        {
+            "id": "site-6",
+            "name": "田小橙授权站",
+            "url": "https:\/\/auth.txc666.cn\/",
+            "description": "软件正版授权管理平台",
+            "icon": "icon-auth",
+            "status": "running"
+        },
+        {
+            "id": "site-7",
+            "name": "云枢校园",
+            "url": "https:\/\/www.yuncampus.cn\/",
+            "description": "智慧校园综合服务平台",
+            "icon": "icon-school",
+            "status": "running"
+        }
+    ]
+}

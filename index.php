@@ -1,7 +1,13 @@
 <?php
+    require_once 'data/loader.php';
     
-    $qq_link = "https://qm.qq.com/q/mOLOGhAQjC"; //qq链接
+    $loader = new DataLoader();
+    $config = $loader->loadConfig();
+    $profile = $loader->loadProfile();
+    $sites = $loader->loadSites();
+    $friends = $loader->loadFriends();
     
+    $qq_link = $config['contact']['qqLink'] ?? 'https://qm.qq.com/q/mOLOGhAQjC';
 ?>
 
 <!DOCTYPE html>
@@ -10,13 +16,13 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="keywords" content="田小橙主页">
-    <meta name="description" content="田小橙个人主页，简约而不简单。">
-    <meta name="theme-color" content="#667eea">
-    <link rel="shortcut icon" href="https://q1.qlogo.cn/g?b=qq&nk=2768651338&s=640" />
+    <meta name="keywords" content="<?php echo htmlspecialchars($config['site']['keywords'] ?? '田小橙主页'); ?>">
+    <meta name="description" content="<?php echo htmlspecialchars($config['site']['description'] ?? '田小橙个人主页，简约而不简单。'); ?>">
+    <meta name="theme-color" content="<?php echo htmlspecialchars($config['site']['themeColor'] ?? '#667eea'); ?>">
+    <link rel="shortcut icon" href="<?php echo htmlspecialchars($config['site']['favicon'] ?? 'https://q1.qlogo.cn/g?b=qq&nk=2768651338&s=640'); ?>" />
     <link rel="stylesheet" href="asset/css/style.css">
     <link rel="stylesheet" href="asset/css/bc.css">
-    <title>田小橙个人主页</title>
+    <title><?php echo htmlspecialchars($config['site']['title'] ?? '田小橙个人主页'); ?></title>
 </head>
 <body>
 <!-- 加载动画 -->
@@ -31,12 +37,12 @@
                 <div class="bc_mbl bc_box" id="bc_mobile_head">
                     <div class="bc-row">
                         <div class="bc-xs3">
-                            <img class="bc_mbl bc_box img-avatar" style="border-radius: 50%;" src="https://q1.qlogo.cn/g?b=qq&nk=2768651338&s=640" alt="田小橙头像" loading="lazy">
+                            <img class="bc_mbl bc_box img-avatar" style="border-radius: 50%;" src="<?php echo htmlspecialchars($profile['avatar'] ?? 'https://q1.qlogo.cn/g?b=qq&nk=2768651338&s=640'); ?>" alt="田小橙头像" loading="lazy">
                         </div>
                         <div class="bc-xs9">
                             <div class="bc-xs12">
-                                <div id="bc_name">田小橙</div>
-                                <div id="bc_tip">始终拥抱美好的未来</div>
+                                <div id="bc_name"><?php echo htmlspecialchars($profile['name'] ?? '田小橙'); ?></div>
+                                <div id="bc_tip"><?php echo htmlspecialchars($profile['slogan'] ?? '始终拥抱美好的未来'); ?></div>
                             </div>
                             <!-- 日期时间 -->
                             <span id="localtime" aria-live="polite" aria-label="当前日期时间"></span>
@@ -78,18 +84,12 @@
                                     <span>身份标签</span>
                                 </div>
                                 <div class="tags-container">
-                                    <a href="javascript:void(0)" class="tag-item tag-green" aria-label="身份标签：独立软件开发者">
+                                    <?php foreach ($profile['identityTags'] ?? [] as $tag): ?>
+                                    <a href="javascript:void(0)" class="tag-item <?php echo htmlspecialchars($tag['color'] ?? 'tag-green'); ?>" aria-label="身份标签：<?php echo htmlspecialchars($tag['name'] ?? ''); ?>">
                                         <span class="tag-dot"></span>
-                                        <span>独立软件开发者</span>
+                                        <span><?php echo htmlspecialchars($tag['name'] ?? ''); ?></span>
                                     </a>
-                                    <a href="javascript:void(0)" class="tag-item tag-yellow" aria-label="身份标签：独立网站开发者">
-                                        <span class="tag-dot"></span>
-                                        <span>独立网站开发者</span>
-                                    </a>
-                                    <a href="javascript:void(0)" class="tag-item tag-blue" aria-label="身份标签：全栈工程师">
-                                        <span class="tag-dot"></span>
-                                        <span>全栈工程师</span>
-                                    </a>
+                                    <?php endforeach; ?>
                                 </div>
                             </div>
                             
@@ -102,30 +102,12 @@
                                     <span>技术栈</span>
                                 </div>
                                 <div class="tags-container">
-                                    <a href="javascript:void(0)" class="tag-item tag-purple lang-tag" aria-label="编程语言：PHP">
-                                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-plain.svg" alt="PHP" loading="lazy">
-                                        <span>PHP</span>
+                                    <?php foreach ($profile['techStack'] ?? [] as $tech): ?>
+                                    <a href="javascript:void(0)" class="tag-item <?php echo htmlspecialchars($tech['color'] ?? 'tag-blue'); ?> lang-tag" aria-label="技术：<?php echo htmlspecialchars($tech['name'] ?? ''); ?>">
+                                        <img src="<?php echo htmlspecialchars($tech['icon'] ?? ''); ?>" alt="<?php echo htmlspecialchars($tech['name'] ?? ''); ?>" loading="lazy">
+                                        <span><?php echo htmlspecialchars($tech['name'] ?? ''); ?></span>
                                     </a>
-                                    <a href="javascript:void(0)" class="tag-item tag-yellow lang-tag" aria-label="标记语言：HTML">
-                                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-plain.svg" alt="HTML5" loading="lazy">
-                                        <span>HTML5</span>
-                                    </a>
-                                    <a href="javascript:void(0)" class="tag-item tag-blue lang-tag" aria-label="样式语言：CSS">
-                                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-plain.svg" alt="CSS3" loading="lazy">
-                                        <span>CSS3</span>
-                                    </a>
-                                    <a href="javascript:void(0)" class="tag-item tag-green lang-tag" aria-label="编程语言：JAVA">
-                                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-plain.svg" alt="Java" loading="lazy">
-                                        <span>Java</span>
-                                    </a>
-                                    <a href="javascript:void(0)" class="tag-item tag-blue lang-tag" aria-label="编程语言：C">
-                                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-plain.svg" alt="C" loading="lazy">
-                                        <span>C</span>
-                                    </a>
-                                    <a href="javascript:void(0)" class="tag-item tag-yellow lang-tag" aria-label="编程语言：JavaScript">
-                                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-plain.svg" alt="JavaScript" loading="lazy">
-                                        <span>JS</span>
-                                    </a>
+                                    <?php endforeach; ?>
                                 </div>
                             </div>
                         </div>
@@ -134,15 +116,15 @@
             </div>
             <div class="bc-xs4 bc-sm2 bc-md2 bc-lg2">
                 <div class="bc_box bc_mbl bc_center">
-                    <a href="#" onclick="showToast('点旁边QQ我就告诉你😏'); return false;" aria-label="微信联系方式" role="button" tabindex="0">
+                    <a href="#" onclick="showToast('<?php echo htmlspecialchars($config['contact']['wechat']['action'] ?? '点旁边QQ我就告诉你😏'); ?>'); return false;" aria-label="微信联系方式" role="button" tabindex="0">
                         <svg class="icon" aria-hidden="true">
                             <use xlink:href="#icon-weixin"></use></svg>
-                        <span style="color:#FFF;">微信</span></a>
+                        <span style="color:#FFF;"><?php echo htmlspecialchars($config['contact']['wechat']['name'] ?? '微信'); ?></span></a>
                 </div>
             </div>
             <div class="bc-xs5 bc-sm2 bc-md2 bc-lg2">
                 <div class="bc_box bc_mbl bc_center">
-                    <a href='tencent://message/?uin=2768651338' target="_blank" rel="noopener noreferrer" aria-label="点击添加QQ好友" role="button">
+                    <a href='tencent://message/?uin=<?php echo htmlspecialchars($config['contact']['qq'] ?? '2768651338'); ?>' target="_blank" rel="noopener noreferrer" aria-label="点击添加QQ好友" role="button">
                         <svg class="icon" aria-hidden="true">
                             <use xlink:href="#icon-QQ"></use></svg>
                         <span style="color:#FFF;">QQ</span></a>
@@ -150,10 +132,10 @@
             </div>
             <div class="bc-xs3 bc-sm2 bc-md2 bc-lg2">
                 <div class="bc_box bc_mbl bc_center">
-                    <a href="#" onclick="showToast('点旁边QQ我就告诉你😏'); return false;" aria-label="群聊联系方式" role="button" tabindex="0">
+                    <a href="#" onclick="showToast('<?php echo htmlspecialchars($config['contact']['group']['action'] ?? '点旁边QQ我就告诉你😏'); ?>'); return false;" aria-label="群聊联系方式" role="button" tabindex="0">
                         <svg class="icon" aria-hidden="true">
                             <use xlink:href="#icon-gitee"></use></svg>
-                        <span style="color:#FFF;">群聊</span></a>
+                        <span style="color:#FFF;"><?php echo htmlspecialchars($config['contact']['group']['name'] ?? '群聊'); ?></span></a>
                 </div>
             </div>
             <div class="bc-sm6 bc-md4 bc-lg6 bc-hide-xs">
@@ -185,11 +167,11 @@
                         <hr aria-hidden="true">
                     </div>
                     <nav class="site-grid" aria-label="旗下站点导航">
-                        <!-- 站点卡片1 -->
-                        <a href="https://blog.txc666.cn/" class="site-card" target="_blank" rel="noopener noreferrer" aria-label="访问田小橙博客">
+                        <?php foreach ($sites['sites'] ?? [] as $site): ?>
+                        <a href="<?php echo htmlspecialchars($site['url'] ?? '#'); ?>" class="site-card" target="_blank" rel="noopener noreferrer" aria-label="访问<?php echo htmlspecialchars($site['name'] ?? ''); ?>">
                             <div class="site-card-image">
-                                <img src="https://api.iowen.cn/doc/mshot/mshot.php?url=https://blog.txc666.cn/" 
-                                     alt="田小橙博客预览" 
+                                <img src="https://api.iowen.cn/doc/mshot/mshot.php?url=<?php echo htmlspecialchars($site['url'] ?? ''); ?>" 
+                                     alt="<?php echo htmlspecialchars($site['name'] ?? ''); ?>预览" 
                                      loading="lazy"
                                      onload="this.classList.add('loaded')"
                                      onerror="this.style.display='none'">
@@ -199,187 +181,20 @@
                                     </svg>
                                 </div>
                                 <div class="site-card-overlay"></div>
-                                <span class="site-card-status" title="运行中"></span>
+                                <span class="site-card-status <?php echo ($site['status'] ?? 'running') === 'stopped' ? 'site-card-status-stop' : ''; ?>" title="<?php echo ($site['status'] ?? 'running') === 'running' ? '运行中' : '停止'; ?>"></span>
                             </div>
-                            <span class="site-card-action">立即访问</span>
+                            <span class="site-card-action"><?php echo ($site['status'] ?? 'running') === 'running' ? '立即访问' : '停止运营'; ?></span>
                             <div class="site-card-info">
                                 <div class="site-card-title">
                                     <svg class="icon" aria-hidden="true">
-                                        <use xlink:href="#icon-blog"></use>
+                                        <use xlink:href="#icon-<?php echo htmlspecialchars($site['icon'] ?? 'lianjie'); ?>"></use>
                                     </svg>
-                                    <span>田小橙博客</span>
+                                    <span><?php echo htmlspecialchars($site['name'] ?? ''); ?></span>
                                 </div>
-                                <div class="site-card-desc">分享技术文章与生活感悟</div>
+                                <div class="site-card-desc"><?php echo htmlspecialchars($site['description'] ?? ''); ?></div>
                             </div>
                         </a>
-                        
-                        <!-- 站点卡片2 -->
-                        <a href="https://starboard.txc666.cn/" class="site-card" target="_blank" rel="noopener noreferrer" aria-label="访问星河留言板">
-                            <div class="site-card-image">
-                                <img src="https://api.iowen.cn/doc/mshot/mshot.php?url=https://starboard.txc666.cn/" 
-                                     alt="星河留言板预览" 
-                                     loading="lazy"
-                                     onload="this.classList.add('loaded')"
-                                     onerror="this.style.display='none'">
-                                <div class="site-card-placeholder skeleton">
-                                    <svg class="icon" aria-hidden="true">
-                                        <use xlink:href="#icon-lianjie"></use>
-                                    </svg>
-                                </div>
-                                <div class="site-card-overlay"></div>
-                                <span class="site-card-status" title="运行中"></span>
-                            </div>
-                            <span class="site-card-action">立即访问</span>
-                            <div class="site-card-info">
-                                <div class="site-card-title">
-                                    <svg class="icon" aria-hidden="true">
-                                        <use xlink:href="#icon-message"></use>
-                                    </svg>
-                                    <span>星河留言板</span>
-                                </div>
-                                <div class="site-card-desc">在线留言互动平台</div>
-                            </div>
-                        </a>
-                        
-                        <!-- 站点卡片3 -->
-                        <a href="https://th.txc666.cn/" class="site-card" target="_blank" rel="noopener noreferrer" aria-label="访问太荒后台">
-                            <div class="site-card-image">
-                                <img src="https://api.iowen.cn/doc/mshot/mshot.php?url=https://th.txc666.cn/" 
-                                     alt="太荒后台预览" 
-                                     loading="lazy"
-                                     onload="this.classList.add('loaded')"
-                                     onerror="this.style.display='none'">
-                                <div class="site-card-placeholder skeleton">
-                                    <svg class="icon" aria-hidden="true">
-                                        <use xlink:href="#icon-lianjie"></use>
-                                    </svg>
-                                </div>
-                                <div class="site-card-overlay"></div>
-                                <span class="site-card-status" title="运行中"></span>
-                            </div>
-                            <span class="site-card-action">立即访问</span>
-                            <div class="site-card-info">
-                                <div class="site-card-title">
-                                    <svg class="icon" aria-hidden="true">
-                                        <use xlink:href="#icon-dashboard"></use>
-                                    </svg>
-                                    <span>太荒后台</span>
-                                </div>
-                                <div class="site-card-desc">专业的后台管理系统</div>
-                            </div>
-                        </a>
-                        
-                        <!-- 站点卡片4 -->
-                        <a href="https://shop.txc666.cn/" class="site-card" target="_blank" rel="noopener noreferrer" aria-label="访问田小橙云商店">
-                            <div class="site-card-image">
-                                <img src="https://api.iowen.cn/doc/mshot/mshot.php?url=https://shop.txc666.cn/" 
-                                     alt="田小橙云商店预览" 
-                                     loading="lazy"
-                                     onload="this.classList.add('loaded')"
-                                     onerror="this.style.display='none'">
-                                <div class="site-card-placeholder skeleton">
-                                    <svg class="icon" aria-hidden="true">
-                                        <use xlink:href="#icon-lianjie"></use>
-                                    </svg>
-                                </div>
-                                <div class="site-card-overlay"></div>
-                                <span class="site-card-status" title="运行中"></span>
-                            </div>
-                            <span class="site-card-action">立即访问</span>
-                            <div class="site-card-info">
-                                <div class="site-card-title">
-                                    <svg class="icon" aria-hidden="true">
-                                        <use xlink:href="#icon-shop"></use>
-                                    </svg>
-                                    <span>田小橙云商店</span>
-                                </div>
-                                <div class="site-card-desc">优质数字产品交易平台</div>
-                            </div>
-                        </a>
-                        
-                        <!-- 站点卡片5 -->
-                        <a href="https://pay.txc666.cn/" class="site-card" target="_blank" rel="noopener noreferrer" aria-label="访问筑梦云支付">
-                            <div class="site-card-image">
-                                <img src="https://api.iowen.cn/doc/mshot/mshot.php?url=https://pay.txc666.cn/" 
-                                     alt="筑梦云支付预览" 
-                                     loading="lazy"
-                                     onload="this.classList.add('loaded')"
-                                     onerror="this.style.display='none'">
-                                <div class="site-card-placeholder skeleton">
-                                    <svg class="icon" aria-hidden="true">
-                                        <use xlink:href="#icon-lianjie"></use>
-                                    </svg>
-                                </div>
-                                <div class="site-card-overlay"></div>
-                                <span class="site-card-status-stop" title="停止"></span>
-                            </div>
-                            <span class="site-card-action">停止运营</span>
-                            <div class="site-card-info">
-                                <div class="site-card-title">
-                                    <svg class="icon" aria-hidden="true">
-                                        <use xlink:href="#icon-pay"></use>
-                                    </svg>
-                                    <span>筑梦云支付</span>
-                                </div>
-                                <div class="site-card-desc">安全便捷的支付解决方案</div>
-                            </div>
-                        </a>
-                        
-                        <!-- 站点卡片6 -->
-                        <a href="https://auth.txc666.cn/" class="site-card" target="_blank" rel="noopener noreferrer" aria-label="访问田小橙授权站">
-                            <div class="site-card-image">
-                                <img src="https://api.iowen.cn/doc/mshot/mshot.php?url=https://auth.txc666.cn/" 
-                                     alt="田小橙授权站预览" 
-                                     loading="lazy"
-                                     onload="this.classList.add('loaded')"
-                                     onerror="this.style.display='none'">
-                                <div class="site-card-placeholder skeleton">
-                                    <svg class="icon" aria-hidden="true">
-                                        <use xlink:href="#icon-lianjie"></use>
-                                    </svg>
-                                </div>
-                                <div class="site-card-overlay"></div>
-                                <span class="site-card-status" title="运行中"></span>
-                            </div>
-                            <span class="site-card-action">立即访问</span>
-                            <div class="site-card-info">
-                                <div class="site-card-title">
-                                    <svg class="icon" aria-hidden="true">
-                                        <use xlink:href="#icon-auth"></use>
-                                    </svg>
-                                    <span>田小橙授权站</span>
-                                </div>
-                                <div class="site-card-desc">软件正版授权管理平台</div>
-                            </div>
-                        </a>
-                        
-                        <!-- 站点卡片7 -->
-                        <a href="https://www.yuncampus.cn/" class="site-card" target="_blank" rel="noopener noreferrer" aria-label="访问云枢校园">
-                            <div class="site-card-image">
-                                <img src="https://api.iowen.cn/doc/mshot/mshot.php?url=https://www.yuncampus.cn/" 
-                                     alt="云枢校园预览" 
-                                     loading="lazy"
-                                     onload="this.classList.add('loaded')"
-                                     onerror="this.style.display='none'">
-                                <div class="site-card-placeholder skeleton">
-                                    <svg class="icon" aria-hidden="true">
-                                        <use xlink:href="#icon-lianjie"></use>
-                                    </svg>
-                                </div>
-                                <div class="site-card-overlay"></div>
-                                <span class="site-card-status" title="运行中"></span>
-                            </div>
-                            <span class="site-card-action">立即访问</span>
-                            <div class="site-card-info">
-                                <div class="site-card-title">
-                                    <svg class="icon" aria-hidden="true">
-                                        <use xlink:href="#icon-school"></use>
-                                    </svg>
-                                    <span>云枢校园</span>
-                                </div>
-                                <div class="site-card-desc">智慧校园综合服务平台</div>
-                            </div>
-                        </a>
+                        <?php endforeach; ?>
                     </nav>
                 </div>
             </div>
@@ -397,28 +212,30 @@
                         <hr aria-hidden="true">
                     </div>
                     <nav class="friend-grid" aria-label="友情链接导航">
-                        <!-- 友链卡片1 -->
-                        <a href="https://bit.txc666.cn/" class="friend-card" target="_blank" rel="noopener noreferrer" aria-label="访问智创比特团队">
-                            <img src="https://bit.txc666.cn/upload/logo.png" 
-                                 alt="智创比特团队" 
-                                 class="friend-card-avatar"
-                                 loading="lazy">
-                            <div class="friend-card-info">
-                                <div class="friend-card-name">智创比特团队</div>
-                                <div class="friend-card-desc">专业技术开发团队</div>
-                            </div>
-                        </a>
-                        
-                        <!-- 友链卡片2 - 待入驻 -->
-                        <a href="#" class="friend-card" onclick="showToast('该位置正在招募友链入驻~'); return false;" aria-label="友链位置待入驻">
+                        <?php foreach ($friends['friends'] ?? [] as $friend): ?>
+                        <?php if ($friend['status'] === 'recruiting'): ?>
+                        <a href="#" class="friend-card" onclick="showToast('<?php echo htmlspecialchars($friend['action'] ?? '该位置正在招募友链入驻~'); ?>'); return false;" aria-label="友链位置待入驻">
                             <div class="friend-card-avatar" style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.3), rgba(118, 75, 162, 0.3)); display: flex; align-items: center; justify-content: center; font-size: 24px;">
                                 +
                             </div>
                             <div class="friend-card-info">
-                                <div class="friend-card-name">友链入驻</div>
-                                <div class="friend-card-desc">期待您的加入</div>
+                                <div class="friend-card-name"><?php echo htmlspecialchars($friend['name'] ?? ''); ?></div>
+                                <div class="friend-card-desc"><?php echo htmlspecialchars($friend['description'] ?? ''); ?></div>
                             </div>
                         </a>
+                        <?php else: ?>
+                        <a href="<?php echo htmlspecialchars($friend['url'] ?? '#'); ?>" class="friend-card" target="_blank" rel="noopener noreferrer" aria-label="访问<?php echo htmlspecialchars($friend['name'] ?? ''); ?>">
+                            <img src="<?php echo htmlspecialchars($friend['avatar'] ?? ''); ?>" 
+                                 alt="<?php echo htmlspecialchars($friend['name'] ?? ''); ?>" 
+                                 class="friend-card-avatar"
+                                 loading="lazy">
+                            <div class="friend-card-info">
+                                <div class="friend-card-name"><?php echo htmlspecialchars($friend['name'] ?? ''); ?></div>
+                                <div class="friend-card-desc"><?php echo htmlspecialchars($friend['description'] ?? ''); ?></div>
+                            </div>
+                        </a>
+                        <?php endif; ?>
+                        <?php endforeach; ?>
                     </nav>
                 </div>
             </div>
@@ -427,13 +244,13 @@
         <div class="bc-row bc-space10">
             <div class="bc-xs12">
                 <footer class="bc_mbl bc_box" id="bc_foot">
-                    <p>Copyright © 2024-2026 田小橙主页<span class="btn bc-hide-xs" style="background: rgba(255,255,255,0.1); padding: 4px 10px; border-radius: 4px; margin-left: 10px;">收藏本站（快捷键<code>Ctrl+D</code>）</span></p>
+                    <p>Copyright © <?php echo htmlspecialchars($config['site']['copyright'] ?? '2024-2026 田小橙主页'); ?><span class="btn bc-hide-xs" style="background: rgba(255,255,255,0.1); padding: 4px 10px; border-radius: 4px; margin-left: 10px;">收藏本站（快捷键<code>Ctrl+D</code>）</span></p>
                     <p style="margin-top: 8px;">
-                        <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=45272402000026" target="_blank" rel="external nofollow noopener noreferrer" aria-label="桂公网安备查询">
-                            <span class="by-p">桂公网安备45272402000026号</span>
+                        <a href="<?php echo htmlspecialchars($config['icp']['policeLink'] ?? ''); ?>" target="_blank" rel="external nofollow noopener noreferrer" aria-label="桂公网安备查询">
+                            <span class="by-p"><?php echo htmlspecialchars($config['icp']['police'] ?? ''); ?></span>
                         </a>
-                        <a href="https://beian.miit.gov.cn/#/Integrated/index" target="_blank" rel="external nofollow noopener noreferrer" aria-label="ICP备案查询">
-                            <span class="by-p">桂ICP备2024037782号</span>
+                        <a href="<?php echo htmlspecialchars($config['icp']['icpLink'] ?? ''); ?>" target="_blank" rel="external nofollow noopener noreferrer" aria-label="ICP备案查询">
+                            <span class="by-p"><?php echo htmlspecialchars($config['icp']['icp'] ?? ''); ?></span>
                         </a>
                     </p>
                 </footer>
@@ -737,7 +554,7 @@
 
 <script type="text/javascript">
     function runtime() {
-        var startTime = new Date("02/15/2024 00:00:00");
+        var startTime = new Date("<?php echo $config['site']['startTime'] ?? '02/15/2024 00:00:00'; ?>");
         var currentTime = new Date();
         var timeDiff = currentTime.getTime() - startTime.getTime();
         

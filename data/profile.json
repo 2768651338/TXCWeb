@@ -1,0 +1,68 @@
+{
+    "version": "1.0.0",
+    "lastModified": "2026-01-13T23:24:34+08:00",
+    "avatar": "https:\/\/q1.qlogo.cn\/g?b=qq&nk=2768651338&s=640",
+    "name": "田小橙",
+    "slogan": "始终拥抱美好的未来",
+    "identityTags": [
+        {
+            "id": "tag-1",
+            "name": "独立软件开发者",
+            "color": "tag-green"
+        },
+        {
+            "id": "tag-2",
+            "name": "独立网站开发者",
+            "color": "tag-yellow"
+        },
+        {
+            "id": "tag-3",
+            "name": "全栈工程师",
+            "color": "tag-blue"
+        }
+    ],
+    "techStack": [
+        {
+            "id": "tech-1",
+            "name": "PHP",
+            "icon": "https:\/\/cdn.jsdelivr.net\/gh\/devicons\/devicon\/icons\/php\/php-plain.svg",
+            "color": "tag-purple",
+            "type": "programming"
+        },
+        {
+            "id": "tech-2",
+            "name": "HTML5",
+            "icon": "https:\/\/cdn.jsdelivr.net\/gh\/devicons\/devicon\/icons\/html5\/html5-plain.svg",
+            "color": "tag-yellow",
+            "type": "markup"
+        },
+        {
+            "id": "tech-3",
+            "name": "CSS3",
+            "icon": "https:\/\/cdn.jsdelivr.net\/gh\/devicons\/devicon\/icons\/css3\/css3-plain.svg",
+            "color": "tag-blue",
+            "type": "style"
+        },
+        {
+            "id": "tech-4",
+            "name": "Java",
+            "icon": "https:\/\/cdn.jsdelivr.net\/gh\/devicons\/devicon\/icons\/java\/java-plain.svg",
+            "color": "tag-green",
+            "type": "programming"
+        },
+        {
+            "id": "tech-5",
+            "name": "C",
+            "icon": "换成国内的链接https:\/\/cdn.jsdelivr.net\/gh\/devicons\/devicon\/icons\/c\/c-plain.svg",
+            "color": "tag-blue",
+            "type": "programming"
+        },
+        {
+            "id": "tech-6",
+            "name": "JS",
+            "icon": "https:\/\/cdn.jsdelivr.net\/gh\/devicons\/devicon\/icons\/javascript\/javascript-plain.svg",
+            "color": "tag-yellow",
+            "type": "programming"
+        }
+    ]
+}
