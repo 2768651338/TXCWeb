@@ -45,7 +45,14 @@
             justify-content: center;
             align-items: center;
             height: 5vh;
-            margin: 0;
+            margin: 10px 0;
+            font-size: 9pt;
+            opacity: 0.85;
+            transition: opacity 0.3s ease;
+        }
+
+        #time-container:hover {
+            opacity: 1;
         }
     </style>
     <title>田小橙个人主页</title>
@@ -109,20 +116,18 @@
                                 tick();
                             </script>
                             <div class="bc-xs12">
-                                <a class="btn">标签：</a>
-                                <p></p>
-                                <a class="btn btn-green">独立软件开发者</a>
-                                <a class="btn btn-yellow">独立网站开发者</a>
-                                <a class="btn btn-blue">全栈工程师</a>
+                                <span class="btn">标签：</span>
+                                <a class="btn btn-green" aria-label="独立软件开发者">独立软件开发者</a>
+                                <a class="btn btn-yellow" aria-label="独立网站开发者">独立网站开发者</a>
+                                <a class="btn btn-blue" aria-label="全栈工程师">全栈工程师</a>
                             </div>
                             <div class="bc-xs12">
-                                <a class="btn">语言：</a>
-                                <p></p>
-                                <a class="btn btn-green">PHP</a>
-                                <a class="btn btn-yellow">HTML</a>
-                                <a class="btn btn-blue">CSS</a>
-                                <a class="btn btn-green">JAVA</a>
-                                <a class="btn btn-yellow">C</a>
+                                <span class="btn">语言：</span>
+                                <a class="btn btn-green" aria-label="PHP编程语言">PHP</a>
+                                <a class="btn btn-yellow" aria-label="HTML标记语言">HTML</a>
+                                <a class="btn btn-blue" aria-label="CSS样式表">CSS</a>
+                                <a class="btn btn-green" aria-label="JAVA编程语言">JAVA</a>
+                                <a class="btn btn-yellow" aria-label="C编程语言">C</a>
                             </div>
                         </div>
                     </div>
@@ -130,7 +135,7 @@
             </div>
             <div class="bc-xs4 bc-sm2 bc-md2 bc-lg2">
                 <div class="bc_box bc_mbl bc_center">
-                    <a href="#" onclick="tip()">
+                    <a href="#" onclick="tip()" aria-label="微信联系方式" role="button">
                         <svg class="icon" aria-hidden="true">
                             <use xlink:href="#icon-weixin"></use></svg>
                         <span style="color:#FFF;">微信</span></a>
@@ -138,7 +143,7 @@
             </div>
             <div class="bc-xs5 bc-sm2 bc-md2 bc-lg2">
                 <div class="bc_box bc_mbl bc_center">
-                    <a href='<?= $qq_link; ?>'>
+                    <a href='<?= $qq_link; ?>' target="_blank" rel="noopener noreferrer" aria-label="QQ联系方式" role="button">
                         <svg class="icon" aria-hidden="true">
                             <use xlink:href="#icon-QQ"></use></svg>
                         <span style="color:#FFF;">QQ</span></a>
@@ -146,7 +151,7 @@
             </div>
             <div class="bc-xs3 bc-sm2 bc-md2 bc-lg2">
                 <div class="bc_box bc_mbl bc_center">
-                    <a href="#" onclick="tip()">
+                    <a href="#" onclick="tip()" aria-label="群聊联系方式" role="button">
                         <svg class="icon" aria-hidden="true">
                             <use xlink:href="#icon-gitee"></use></svg>
                         <span style="color:#FFF;">群聊</span></a>
@@ -154,9 +159,7 @@
             </div>
             <div class="bc-sm6 bc-md4 bc-lg6 bc-hide-xs">
                 <div class="bc_box bc_mbl">
-                    <div class="bc_box bc_mbl">
-                        <p>如果您喜欢我们的网站，请将本站添加到收藏夹（快捷键<code>Ctrl+D</code>），并<a class="btn btn-green" href="https://jingyan.baidu.com/article/4dc40848868eba89d946f1c0.html" target="_blank">设为浏览器主页</a>，方便您的下次访问，感谢支持。</p>
-                    </div>
+                    <p style="line-height: 1.8; opacity: 0.95;">如果您喜欢我们的网站，请将本站添加到收藏夹（快捷键<code>Ctrl+D</code>），并<a class="btn btn-green" href="https://jingyan.baidu.com/article/4dc40848868eba89d946f1c0.html" target="_blank" rel="noopener noreferrer">设为浏览器主页</a>，方便您的下次访问，感谢支持。</p>
                 </div>
             </div>
         </div>
@@ -169,31 +172,31 @@
                             </svg>旗下站点</h3><hr>
                     </div>
                     <div class="bc-row bc-space10" style="word-wrap:break-word;">
-                        <a href="https://blog.txc666.cn/" class="bc-xs6 bc-sm4 bc-md4 bc-lg4">
+                        <a href="https://blog.txc666.cn/" class="bc-xs6 bc-sm4 bc-md4 bc-lg4" target="_blank" rel="noopener noreferrer">
                             <div class="bc_a btn-blue bc_center"><svg class="icon" aria-hidden="true">
                                     <use xlink:href="#icon-lianjie"></use>
                                 </svg>田小橙博客</div></a>
-                        <a href="https://starboard.txc666.cn/" class="bc-xs6 bc-sm4 bc-md4 bc-lg4">
+                        <a href="https://starboard.txc666.cn/" class="bc-xs6 bc-sm4 bc-md4 bc-lg4" target="_blank" rel="noopener noreferrer">
                             <div class="bc_a btn-blue bc_center"><svg class="icon" aria-hidden="true">
                                     <use xlink:href="#icon-lianjie"></use>
                                 </svg>星河留言板</div></a>
-                        <a href="https://th.txc666.cn/" class="bc-xs6 bc-sm4 bc-md4 bc-lg4">
+                        <a href="https://th.txc666.cn/" class="bc-xs6 bc-sm4 bc-md4 bc-lg4" target="_blank" rel="noopener noreferrer">
                             <div class="bc_a btn-blue bc_center"><svg class="icon" aria-hidden="true">
                                     <use xlink:href="#icon-lianjie"></use>
                                 </svg>太荒后台</div></a>
-                        <a href="https://shop.txc666.cn/" class="bc-xs6 bc-sm4 bc-md4 bc-lg4">
+                        <a href="https://shop.txc666.cn/" class="bc-xs6 bc-sm4 bc-md4 bc-lg4" target="_blank" rel="noopener noreferrer">
                             <div class="bc_a btn-blue bc_center"><svg class="icon" aria-hidden="true">
                                     <use xlink:href="#icon-lianjie"></use>
                                 </svg>田小橙云商店</div></a>
-                        <a href="https://pay.txc666.cn/" class="bc-xs6 bc-sm4 bc-md4 bc-lg4">
+                        <a href="https://pay.txc666.cn/" class="bc-xs6 bc-sm4 bc-md4 bc-lg4" target="_blank" rel="noopener noreferrer">
                             <div class="bc_a btn-blue bc_center"><svg class="icon" aria-hidden="true">
                                     <use xlink:href="#icon-lianjie"></use>
                                 </svg>筑梦云支付</div></a>
-                        <a href="https://auth.txc666.cn/" class="bc-xs6 bc-sm4 bc-md4 bc-lg4">
+                        <a href="https://auth.txc666.cn/" class="bc-xs6 bc-sm4 bc-md4 bc-lg4" target="_blank" rel="noopener noreferrer">
                             <div class="bc_a btn-blue bc_center"><svg class="icon" aria-hidden="true">
                                     <use xlink:href="#icon-lianjie"></use>
                                 </svg>田小橙授权站</div></a>
-                        <a href="https://www.yuncampus.cn/" class="bc-xs6 bc-sm4 bc-md4 bc-lg4">
+                        <a href="https://www.yuncampus.cn/" class="bc-xs6 bc-sm4 bc-md4 bc-lg4" target="_blank" rel="noopener noreferrer">
                             <div class="bc_a btn-blue bc_center"><svg class="icon" aria-hidden="true">
                                     <use xlink:href="#icon-lianjie"></use>
                                 </svg>云枢校园</div></a>
@@ -208,11 +211,11 @@
                             </svg>友情链接</h3><hr>
                     </div>
                     <div class="bc-row bc-space10" style="word-wrap:break-word;">
-                        <a href="https://bit.txc666.cn/" class="bc-xs6 bc-sm6 bc-md6 bc-lg6">
+                        <a href="https://bit.txc666.cn/" class="bc-xs6 bc-sm6 bc-md6 bc-lg6" target="_blank" rel="noopener noreferrer">
                             <div class="bc_a btn-blue bc_center"><svg class="icon" aria-hidden="true">
                                     <use xlink:href="#icon-lianjie"></use>
                                 </svg>智创比特团队</div></a>
-                        <a href="#" class="bc-xs6 bc-sm6 bc-md6 bc-lg6">
+                        <a href="#" class="bc-xs6 bc-sm6 bc-md6 bc-lg6" onclick="tip(); return false;">
                             <div class="bc_a btn-blue bc_center"><svg class="icon" aria-hidden="true">
                                     <use xlink:href="#icon-lianjie"></use>
                                 </svg>待入驻</div></a>
@@ -237,7 +240,52 @@
 <script src="asset/js/iconfont.js"></script>
 <script>
     function tip() {
-        alert("点旁边QQ我就告诉你😏");
+        // 创建自定义提示框
+        const toast = document.createElement('div');
+        toast.style.cssText = `
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.95);
+            color: #333;
+            padding: 12px 24px;
+            border-radius: 25px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            z-index: 10000;
+            font-size: 14px;
+            animation: slideDown 0.3s ease;
+            cursor: pointer;
+        `;
+        toast.textContent = '点旁边QQ我就告诉你😏';
+
+        // 添加关闭动画
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideDown {
+                from { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+                to { opacity: 1; transform: translateX(-50%) translateY(0); }
+            }
+            @keyframes slideUp {
+                from { opacity: 1; transform: translateX(-50%) translateY(0); }
+                to { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        document.body.appendChild(toast);
+
+        // 点击关闭
+        toast.addEventListener('click', () => {
+            toast.style.animation = 'slideUp 0.3s ease';
+            setTimeout(() => toast.remove(), 300);
+        });
+
+        // 自动关闭
+        setTimeout(() => {
+            toast.style.animation = 'slideUp 0.3s ease';
+            setTimeout(() => toast.remove(), 300);
+        }, 3000);
     }
 </script>
 <span id="span"></span>
