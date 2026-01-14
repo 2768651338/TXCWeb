@@ -31,6 +31,9 @@ async function loadData(section) {
         case 'friends':
             loadFriends();
             break;
+        case 'version':
+            loadBackups();
+            break;
     }
 }
 
@@ -1026,6 +1029,175 @@ async function backupData() {
         }
     }
 }
+
+// 导入备份数据
+async function importData() {
+    // 创建文件选择器
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'application/json';
+
+    fileInput.onchange = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        // 验证文件扩展名
+        const fileName = file.name.toLowerCase();
+        if (!fileName.endsWith('.json')) {
+            showToast('请选择JSON格式的备份文件', 'error');
+            return;
+        }
+
+        // 验证文件名格式（可选：检查是否为标准备份文件名）
+        const isValidBackupName = fileName.match(/^full_backup_\d{8}_\d{6}\.json$/) ||
+                                   fileName.endsWith('_backup.json') ||
+                                   fileName.endsWith('.json');
+
+        if (!isValidBackupName) {
+            if (!confirm('文件名可能不是标准备份文件格式，是否继续导入？')) {
+                return;
+            }
+        }
+
+        // 确认导入
+        if (!confirm(`确定要导入备份文件 "${file.name}" 吗？\n\n此操作将覆盖当前数据，导入前系统会自动备份当前数据。`)) {
+            return;
+        }
+
+        const loadingToast = showToast('正在导入备份数据...', 'loading');
+
+        try {
+            const formData = new FormData();
+            formData.append('backupFile', file);
+
+            const response = await fetch('api/import.php', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP 错误: ${response.status} ${response.statusText}`);
+            }
+
+            let result;
+            try {
+                result = await response.json();
+            } catch (jsonError) {
+                throw new Error('服务器响应格式错误');
+            }
+
+            if (result.success) {
+                let message = '数据导入成功！';
+                if (result.importedFiles && result.importedFiles.length > 0) {
+                    message += `\n已导入: ${result.importedFiles.join(', ')}`;
+                }
+                if (result.backupVersion) {
+                    message += `\n备份版本: ${result.backupVersion}`;
+                }
+                if (result.backupTimestamp) {
+                    const backupDate = new Date(result.backupTimestamp).toLocaleString('zh-CN');
+                    message += `\n备份时间: ${backupDate}`;
+                }
+                if (result.warnings && result.warnings.length > 0) {
+                    message += `\n\n警告:\n${result.warnings.join('\n')}`;
+                }
+                loadingToast.success(message);
+
+                // 重新加载当前页面数据
+                setTimeout(() => {
+                    location.reload();
+                }, 2000);
+            } else {
+                loadingToast.error(result.message || '数据导入失败');
+            }
+        } catch (error) {
+            console.error('导入备份数据失败:', error);
+            if (error.message.includes('HTTP 错误')) {
+                loadingToast.error('服务器错误: ' + error.message);
+            } else if (error.message.includes('响应格式')) {
+                loadingToast.error('服务器返回数据格式错误');
+            } else if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
+                loadingToast.error('网络连接失败,请检查网络');
+            } else {
+                loadingToast.error('导入失败: ' + error.message);
+            }
+        }
+    };
+
+    fileInput.click();
+}
+
+// 加载备份列表
+async function loadBackups() {
+    const backupList = document.getElementById('backupList');
+    backupList.innerHTML = '<div class="data-item"><div class="data-info"><p>加载中...</p></div></div>';
+
+    try {
+        const response = await fetch('api/backups.php');
+
+        if (!response.ok) {
+            throw new Error(`HTTP 错误: ${response.status} ${response.statusText}`);
+        }
+
+        const result = await response.json();
+
+        if (result.success && result.backups) {
+            if (result.backups.length === 0) {
+                backupList.innerHTML = '<div class="data-item"><div class="data-info"><p>暂无备份文件</p></div></div>';
+                return;
+            }
+
+            let html = '';
+            result.backups.forEach((backup) => {
+                const filesIncluded = [];
+                if (backup.hasConfig) filesIncluded.push('配置');
+                if (backup.hasProfile) filesIncluded.push('个人信息');
+                if (backup.hasSites) filesIncluded.push('站点');
+                if (backup.hasFriends) filesIncluded.push('友情链接');
+
+                html += `
+                    <div class="data-item">
+                        <div class="data-info">
+                            <h3>${backup.fileName}</h3>
+                            <p>
+                                大小: ${backup.fileSizeFormatted} |
+                                时间: ${backup.modifiedTimeFormatted}
+                                ${backup.version ? ` | 版本: ${backup.version}` : ''}
+                            </p>
+                            <p style="margin-top: 4px; color: #999;">
+                                包含: ${filesIncluded.join(', ') || '无数据'}
+                            </p>
+                        </div>
+                        <div class="data-actions">
+                            <button class="btn-edit" onclick="downloadBackup('${backup.fileName}')">下载</button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            backupList.innerHTML = html;
+        } else {
+            backupList.innerHTML = '<div class="data-item"><div class="data-info"><p>加载备份列表失败</p></div></div>';
+        }
+    } catch (error) {
+        console.error('加载备份列表失败:', error);
+        backupList.innerHTML = '<div class="data-item"><div class="data-info"><p>加载备份列表失败，请检查网络连接</p></div></div>';
+    }
+}
+
+// 下载备份文件
+function downloadBackup(fileName) {
+    const url = `../data/backups/${fileName}`;
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = fileName;
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    showToast('开始下载备份文件', 'success');
+}
+
 
 // 显示模态框
 function showModal(title, content, onSave) {

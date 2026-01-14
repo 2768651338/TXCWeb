@@ -1,0 +1,5 @@
+{
+    "step": "error",
+    "status": "error",
+    "message": "备份文件验证失败: 缺少时间戳信息; 文件数据格式错误"
+}

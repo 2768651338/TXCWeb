@@ -621,7 +621,10 @@ $currentUser = $auth->getCurrentUser();
             <div id="versionPanel" class="content-panel">
                 <div class="section-header">
                     <h2>版本管理</h2>
-                    <button class="btn-primary" onclick="backupData()">备份数据</button>
+                    <div style="display: flex; gap: 12px;">
+                        <button class="btn-primary" onclick="backupData()">备份数据</button>
+                        <button class="btn-primary" onclick="importData()">导入备份</button>
+                    </div>
                 </div>
                 <div class="data-list">
                     <div class="data-item">
@@ -633,10 +636,22 @@ $currentUser = $auth->getCurrentUser();
                     <div class="data-item">
                         <div class="data-info">
                             <h3>手动备份</h3>
-                            <p>点击上方按钮手动备份当前所有数据</p>
+                            <p>点击"备份数据"按钮手动备份当前所有数据</p>
+                        </div>
+                    </div>
+                    <div class="data-item">
+                        <div class="data-info">
+                            <h3>导入备份</h3>
+                            <p>点击"导入备份"按钮上传JSON格式的备份文件来恢复数据</p>
+                        </div>
+                    </div>
+                    <div class="data-item">
+                        <div class="data-info">
+                            <h3>备份历史</h3>
                         </div>
                     </div>
                 </div>
+                <div class="data-list" id="backupList" style="margin-top: 20px;"></div>
             </div>
         </main>
     </div>
