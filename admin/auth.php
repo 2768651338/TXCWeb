@@ -117,27 +117,58 @@ class AuthManager {
         if (!$this->isLoggedIn()) {
             return ['success' => false, 'message' => '未登录'];
         }
-        
+
         $currentUser = $this->getCurrentUser();
         $users = $this->loadUsers();
-        
+
         foreach ($users as &$user) {
             if ($user['id'] === $currentUser['user_id']) {
+                // 验证旧密码
                 if (!$this->verifyPassword($oldPassword, $user['passwordHash'])) {
-                    return ['success' => false, 'message' => '原密码错误'];
+                    return ['success' => false, 'message' => '当前密码错误'];
                 }
-                
-                if (strlen($newPassword) < 6) {
-                    return ['success' => false, 'message' => '新密码长度不能少于6位'];
+
+                // 验证新密码长度
+                if (strlen($newPassword) < 8) {
+                    return ['success' => false, 'message' => '新密码长度不能少于8位'];
                 }
-                
+
+                // 验证新密码强度
+                $strength = $this->checkPasswordStrength($newPassword);
+                if ($strength < 2) {
+                    return ['success' => false, 'message' => '密码强度过低，请使用包含大小写字母、数字和特殊字符的组合'];
+                }
+
+                // 更新密码哈希
                 $user['passwordHash'] = hash('sha256', $newPassword);
                 $this->saveUsers($users);
-                
+
                 return ['success' => true, 'message' => '密码修改成功'];
             }
         }
-        
+
         return ['success' => false, 'message' => '用户不存在'];
+    }
+
+    /**
+     * 检查密码强度
+     * @param string $password 密码
+     * @return int 强度评分 (0-4)
+     */
+    private function checkPasswordStrength($password) {
+        $score = 0;
+
+        // 长度检查
+        if (strlen($password) >= 8) $score++;
+        if (strlen($password) >= 12) $score++;
+
+        // 复杂度检查
+        if (preg_match('/[a-z]/', $password)) $score++;
+        if (preg_match('/[A-Z]/', $password)) $score++;
+        if (preg_match('/[0-9]/', $password)) $score++;
+        if (preg_match('/[^a-zA-Z0-9]/', $password)) $score++;
+
+        // 返回强度等级 (0-4)
+        return min(4, ceil($score / 2));
     }
 }

@@ -1168,9 +1168,193 @@ async function handleRequest(url, options, loadingToast) {
 // 退出登录
 async function logout() {
     if (!confirm('确定要退出登录吗？')) return;
-    
+
     await fetch('api/logout.php', { method: 'POST' });
     window.location.href = 'login.php';
+}
+
+// 修改密码
+function changePassword() {
+    showModal('修改密码', `
+        <div class="form-group">
+            <label>当前密码</label>
+            <input type="password" id="currentPassword" placeholder="请输入当前密码" autocomplete="current-password">
+        </div>
+        <div class="form-group">
+            <label>新密码</label>
+            <input type="password" id="newPassword" placeholder="请输入新密码（至少8位）" autocomplete="new-password" oninput="checkPasswordStrength()">
+            <div id="passwordStrength" style="margin-top: 8px; display: flex; gap: 4px;">
+                <div class="strength-bar" style="flex: 1; height: 4px; background: #e0e0e0; border-radius: 2px; transition: all 0.3s;"></div>
+                <div class="strength-bar" style="flex: 1; height: 4px; background: #e0e0e0; border-radius: 2px; transition: all 0.3s;"></div>
+                <div class="strength-bar" style="flex: 1; height: 4px; background: #e0e0e0; border-radius: 2px; transition: all 0.3s;"></div>
+                <div class="strength-bar" style="flex: 1; height: 4px; background: #e0e0e0; border-radius: 2px; transition: all 0.3s;"></div>
+            </div>
+            <div id="passwordStrengthText" style="margin-top: 4px; font-size: 12px; color: #999;"></div>
+        </div>
+        <div class="form-group">
+            <label>确认新密码</label>
+            <input type="password" id="confirmPassword" placeholder="请再次输入新密码" autocomplete="new-password" oninput="checkPasswordMatch()">
+            <div id="passwordMatchText" style="margin-top: 4px; font-size: 12px;"></div>
+        </div>
+    `, async () => {
+        const currentPassword = document.getElementById('currentPassword').value;
+        const newPassword = document.getElementById('newPassword').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+
+        // 前端验证
+        if (!currentPassword) {
+            showToast('请输入当前密码', 'error');
+            return;
+        }
+
+        if (!newPassword) {
+            showToast('请输入新密码', 'error');
+            return;
+        }
+
+        if (newPassword.length < 8) {
+            showToast('新密码长度不能少于8位', 'error');
+            return;
+        }
+
+        if (newPassword === currentPassword) {
+            showToast('新密码不能与当前密码相同', 'error');
+            return;
+        }
+
+        if (newPassword !== confirmPassword) {
+            showToast('两次输入的新密码不一致', 'error');
+            return;
+        }
+
+        // 检查密码强度
+        const strength = getPasswordStrength(newPassword);
+        if (strength.score < 2) {
+            showToast('密码强度过低，请使用更强的密码', 'error');
+            return;
+        }
+
+        const saveBtn = document.getElementById('modalSave');
+        saveBtn.disabled = true;
+        const loadingToast = showToast('正在修改密码...', 'loading');
+
+        try {
+            const response = await fetch('api/change-password.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    currentPassword,
+                    newPassword
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP 错误: ${response.status} ${response.statusText}`);
+            }
+
+            let result;
+            try {
+                result = await response.json();
+            } catch (jsonError) {
+                throw new Error('服务器响应格式错误');
+            }
+
+            if (result.success) {
+                loadingToast.success('密码修改成功，请重新登录');
+                setTimeout(() => {
+                    closeModal();
+                    // 2秒后跳转到登录页
+                    setTimeout(() => {
+                        window.location.href = 'login.php';
+                    }, 2000);
+                }, 500);
+            } else {
+                loadingToast.error(result.message || '密码修改失败');
+                saveBtn.disabled = false;
+            }
+        } catch (error) {
+            console.error('修改密码失败:', error);
+            if (error.message.includes('HTTP 错误')) {
+                loadingToast.error('服务器错误: ' + error.message);
+            } else if (error.message.includes('响应格式')) {
+                loadingToast.error('服务器返回数据格式错误');
+            } else if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
+                loadingToast.error('网络连接失败,请检查网络');
+            } else {
+                loadingToast.error('修改密码失败: ' + error.message);
+            }
+            saveBtn.disabled = false;
+        }
+    });
+}
+
+// 检查密码强度
+function checkPasswordStrength() {
+    const password = document.getElementById('newPassword').value;
+    const strength = getPasswordStrength(password);
+    const bars = document.querySelectorAll('.strength-bar');
+    const strengthText = document.getElementById('passwordStrengthText');
+
+    // 更新强度条颜色
+    const colors = ['#e74c3c', '#e67e22', '#f1c40f', '#2ecc71'];
+    const labels = ['弱', '一般', '中等', '强'];
+
+    bars.forEach((bar, index) => {
+        bar.style.background = index < strength.score ? colors[strength.score - 1] : '#e0e0e0';
+    });
+
+    // 更新强度文字
+    if (password) {
+        strengthText.textContent = `密码强度: ${labels[strength.score - 1] || '非常弱'}`;
+        strengthText.style.color = colors[strength.score - 1] || '#999';
+    } else {
+        strengthText.textContent = '';
+    }
+}
+
+// 计算密码强度
+function getPasswordStrength(password) {
+    let score = 0;
+
+    if (!password) return { score: 0, text: '' };
+
+    // 长度检查
+    if (password.length >= 8) score++;
+    if (password.length >= 12) score++;
+
+    // 复杂度检查
+    if (/[a-z]/.test(password)) score++;
+    if (/[A-Z]/.test(password)) score++;
+    if (/[0-9]/.test(password)) score++;
+    if (/[^a-zA-Z0-9]/.test(password)) score++;
+
+    // 根据总分返回强度等级（1-4）
+    const finalScore = Math.min(4, Math.ceil(score / 2));
+
+    return {
+        score: finalScore,
+        text: ['非常弱', '弱', '一般', '中等', '强'][finalScore]
+    };
+}
+
+// 检查密码是否匹配
+function checkPasswordMatch() {
+    const newPassword = document.getElementById('newPassword').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+    const matchText = document.getElementById('passwordMatchText');
+
+    if (!confirmPassword) {
+        matchText.textContent = '';
+        return;
+    }
+
+    if (newPassword === confirmPassword) {
+        matchText.textContent = '✓ 密码一致';
+        matchText.style.color = '#28a745';
+    } else {
+        matchText.textContent = '✗ 密码不一致';
+        matchText.style.color = '#dc3545';
+    }
 }
 
 // 页面加载时加载仪表盘

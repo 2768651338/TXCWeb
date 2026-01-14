@@ -5,7 +5,7 @@ require_once 'auth.php';
 $auth = new AuthManager();
 
 if (!$auth->isLoggedIn()) {
-    header('Location: login.php');
+    header('Location: /admin/login.php');
     exit;
 }
 
@@ -594,7 +594,10 @@ $currentUser = $auth->getCurrentUser();
             <div id="profilePanel" class="content-panel">
                 <div class="section-header">
                     <h2>个人信息</h2>
-                    <button class="btn-primary" onclick="editProfile()">编辑信息</button>
+                    <div style="display: flex; gap: 12px;">
+                        <button class="btn-primary" onclick="editProfile()">编辑信息</button>
+                        <button class="btn-primary" onclick="changePassword()">修改密码</button>
+                    </div>
                 </div>
                 <div class="data-list" id="profileList"></div>
             </div>
